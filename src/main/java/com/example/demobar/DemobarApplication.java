@@ -25,6 +25,8 @@ public class DemobarApplication implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 
 
+
+
 		System.out.println("-------------CREATE GROCERY ITEMS-------------------------------\n");
 
 		createGroceryItems();
@@ -63,6 +65,7 @@ public class DemobarApplication implements CommandLineRunner{
 		groceryItemRepo.save(new GroceryItem("Cheese Crackers", "Bonny Cheese Crackers Plain", 6, "snacks"));
 		System.out.println("Data creation complete...");
 	}
+
 
 	// READ
 	// 1. Show all the data
