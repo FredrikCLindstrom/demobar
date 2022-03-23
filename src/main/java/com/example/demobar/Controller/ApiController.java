@@ -2,9 +2,14 @@ package com.example.demobar.Controller;
 
 import com.example.demobar.Model.*;
 import com.example.demobar.Service.ItemService;
+import com.example.demobar.Service.ReceiptService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -13,11 +18,14 @@ import java.util.List;
 public class ApiController {
 
     ItemService itemService;
+    ReceiptService receiptService;
 
     @Autowired
-    public ApiController(ItemService itemService) {
+    public ApiController(ItemService itemService, ReceiptService receiptService) {
         this.itemService = itemService;
+        this.receiptService = receiptService;
     }
+
 
     @GetMapping("/addToDataBase") //adds testdata do DB, only runs once
     public String getTestObject() {
@@ -96,8 +104,25 @@ public class ApiController {
         //TODO: set in stock of said item to false
     }
 
-    @PostMapping("/printReceipt/{listOfOrder}")
-    public void printeReceipt(@PathVariable List<String> listOfOrder) {
-        //TODO: create a receipt for customer and bar
+
+
+    @PostMapping("/printReceipt")
+    public ResponseEntity<String>  printReceipt (@RequestBody List<String> items) throws IOException {
+        System.out.println(items);
+
+        Receipt receipt= new Receipt();
+        ArrayList<Item> listOfItems = new ArrayList<>();
+
+        for (int i = 0; i < items.size(); i++) {
+
+            Item item = itemService.findItemById(items.get(i));
+            listOfItems.add(item);
+
+        }
+        receipt.setItemsPurchased(listOfItems);
+        receiptService.saveReceiptToDB(receipt);
+        receiptService.calculateTotalReceipt(receipt);
+        System.out.println(receipt.getItemsPurchased()+" hey");
+        return new ResponseEntity<>("200", HttpStatus.OK);
     }
 }

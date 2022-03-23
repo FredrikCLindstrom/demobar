@@ -88,11 +88,11 @@ public class ItemService {
 
     }
 
-    public void findbyname(){
-        String nameOfItem="pripps";
+    public Item findItemById(String itemId){
         Item found;
-        found=itemRepository.findItemByName(nameOfItem);
+        found=itemRepository.findItemById(itemId);
         System.out.println(found+ "this is found");
+        return found;
     }
 
     public void createNewFoodOrSnacksItem(String nameOfItem, int price, String itemCategory){
