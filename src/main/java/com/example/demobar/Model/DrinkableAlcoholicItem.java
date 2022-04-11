@@ -3,8 +3,8 @@ package com.example.demobar.Model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.Entity;
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -17,7 +17,6 @@ public class DrinkableAlcoholicItem extends DrinkableItem{
         super(nameOfItem, price, type, alcoholic, volume);
         this.percentageAlcohol = percentageAlcohol;
     }
-
 
     @Override
     public String toString() {

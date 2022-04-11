@@ -1,16 +1,12 @@
 package com.example.demobar.Model;
 
-
-import com.example.demobar.Model.Item;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.List;
+
 import java.util.UUID;
 
 @Getter
@@ -28,7 +24,6 @@ public class Receipt {
     private ArrayList<Item> itemsPurchased;
 
     private int totalPrice;
-
 
     public Receipt() {
         this.idOfReceipt = UUID.randomUUID().toString();

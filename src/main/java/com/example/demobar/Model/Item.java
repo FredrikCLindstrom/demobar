@@ -1,9 +1,7 @@
 package com.example.demobar.Model;
 
-
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import javax.persistence.*;
 import java.util.UUID;
 

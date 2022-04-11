@@ -4,13 +4,12 @@ import com.example.demobar.Model.Receipt;
 import com.example.demobar.Repo.ReceiptRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.Date;
+
 
 @Service
 public class ReceiptService {
@@ -21,10 +20,11 @@ public class ReceiptService {
     public ReceiptService(ReceiptRepository receiptRepository) {
         this.receiptRepository = receiptRepository;
     }
+
     public void saveReceiptToDB(Receipt receipt){
         receiptRepository.save(receipt);
-        System.out.println(receiptRepository.count());
     }
+
     public void calculateTotalReceipt(Receipt receipt){
 
         ArrayList<String> listToPrint= new ArrayList<>();
@@ -37,16 +37,18 @@ public class ReceiptService {
 
             });
 
-        System.out.println(listToPrint+"333333");
-        System.out.println(receipt.getTotalPrice());
-        System.out.println(receipt.getItemsPurchased().size());
         printReceipt(listToPrint, receipt.getTotalPrice(),receipt);
     }
     private void printReceipt(ArrayList<String> items, int totalPrice, Receipt receipt){
         String location="/Users/lindstrom/Desktop/rec/";
-//
+        Date today = new Date();
+
         try {
             BufferedWriter myWriter = new BufferedWriter(new FileWriter(location.concat(receipt.getIdOfReceipt().concat(".txt")), true));
+            myWriter.newLine();
+            myWriter.write(today.toString());
+            myWriter.newLine();
+            myWriter.newLine();
             myWriter.write("{Table 1} Receipt id: "+receipt.getIdOfReceipt());
             myWriter.newLine();
 
@@ -70,5 +72,4 @@ public class ReceiptService {
             e.printStackTrace();
         }
     }
-
 }

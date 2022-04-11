@@ -1,6 +1,5 @@
 package com.example.demobar.Model;
 
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,7 +22,6 @@ public class DrinkableItem extends Item{
         this.alcoholic = alcoholic;
         this.volume = volume;
     }
-
 
     @Override
     public String toString() {

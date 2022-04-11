@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +15,8 @@ import java.util.List;
 @CrossOrigin
 @RequestMapping(value = "/api")
 public class ApiController {
+
+    //TODO: add response to all endpoints
 
     ItemService itemService;
     ReceiptService receiptService;
@@ -26,12 +27,11 @@ public class ApiController {
         this.receiptService = receiptService;
     }
 
-
-    @GetMapping("/addToDataBase") //adds testdata do DB, only runs once
-    public String getTestObject() {
-        itemService.createItems();
-        return "added";
-    }
+//    @GetMapping("/addToDataBase") //adds testdata do DB, only runs once
+//    public String getTestObject() {
+//        itemService.createItems();
+//        return "added";
+//    }
 
     @GetMapping("/all") //show all menu items regardless of in stock or not
     public List<Item> getAllItemsInDB() {
@@ -96,7 +96,6 @@ public class ApiController {
     @PostMapping("/DeleteItem/{id}")
     public void deleteForeverItem(@PathVariable String id) {
        //TODO: delete the one with that id
-
     }
 
     @PostMapping("/SetOutOfStockSingleItem/{id}")
@@ -104,11 +103,8 @@ public class ApiController {
         //TODO: set in stock of said item to false
     }
 
-
-
     @PostMapping("/printReceipt")
     public ResponseEntity<String>  printReceipt (@RequestBody List<String> items) throws IOException {
-        System.out.println(items);
 
         Receipt receipt= new Receipt();
         ArrayList<Item> listOfItems = new ArrayList<>();
@@ -122,7 +118,7 @@ public class ApiController {
         receipt.setItemsPurchased(listOfItems);
         receiptService.saveReceiptToDB(receipt);
         receiptService.calculateTotalReceipt(receipt);
-        System.out.println(receipt.getItemsPurchased()+" hey");
+
         return new ResponseEntity<>("200", HttpStatus.OK);
     }
 }
