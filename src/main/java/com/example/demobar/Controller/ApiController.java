@@ -52,30 +52,48 @@ public class ApiController {
     }
 
     @GetMapping("/RemoveAlcoholFromMenu") //sets all alcoholic bevergaes to --OUT-- of stock
-    public void removeAlcohol() {
+    public ResponseEntity<String> removeAlcohol() {
         Item item = new DrinkableAlcoholicItem();
         itemService.removeItemCategoryFromMenu(item);
+        return new ResponseEntity<>("200", HttpStatus.OK);
+
+    }
+
+    @GetMapping("/RemoveAllItemsFromMenu") //sets all items to --OUT-- of stock
+    public ResponseEntity<String> removeAllItemsFromMenu() {
+        itemService.removeAllItemCategorysFromMenu();
+        return new ResponseEntity<>("200", HttpStatus.OK);
+
+    }
+
+    @GetMapping("/ReInstateAllItemsFromMenu") //sets all items to --OUT-- of stock
+    public ResponseEntity<String> reInstateAllItemsFromMenu() {
+        itemService.reInstateAllItemCategorysFromMenu();
+        return new ResponseEntity<>("200", HttpStatus.OK);
 
     }
 
     @GetMapping("/ReinstateAlcoholToMenu") //sets all alcoholic bevergaes to out --IN-- stock
-    public void reInstateAlcoholicBeveragesToMenu() {
+    public ResponseEntity<String> reInstateAlcoholicBeveragesToMenu() {
         Item item = new DrinkableAlcoholicItem();
         itemService.reInstateItemCategory(item);
+        return new ResponseEntity<>("200", HttpStatus.OK);
 
     }
 
     @GetMapping("/CloseTheKitchen") //sets all Fooditems  to --OUT-- of stock
-    public void CloseKitchenByRemovingFoodItems() {
+    public ResponseEntity<String> CloseKitchenByRemovingFoodItems() {
         Item item = new FoodItem();
         itemService.removeItemCategoryFromMenu(item);
 
+        return new ResponseEntity<>("200", HttpStatus.OK);
     }
 
     @GetMapping("/OpenTheKitchen") //sets all Fooditems to out --IN-- stock
-    public void reInstateFoodItemsToMenu() {
+    public ResponseEntity<String> reInstateFoodItemsToMenu() {
         Item item = new FoodItem();
         itemService.reInstateItemCategory(item);
+        return new ResponseEntity<>("200", HttpStatus.OK);
 
     }
 

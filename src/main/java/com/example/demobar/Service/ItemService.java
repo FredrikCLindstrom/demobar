@@ -39,6 +39,33 @@ public class ItemService {
 
     }
 
+    public void removeAllItemCategorysFromMenu() {
+
+        List<Item> itemList;
+
+        itemList=showAllItems().stream().collect(Collectors.toList());
+
+        itemList.forEach(itemInList->{
+            itemInList.setInStock(false);
+        });
+        itemRepository.saveAll(itemList);
+
+    }
+
+    public void reInstateAllItemCategorysFromMenu() {
+
+        List<Item> itemList;
+
+        itemList=showAllItems().stream().collect(Collectors.toList());
+
+        itemList.forEach(itemInList->{
+            itemInList.setInStock(true);
+        });
+        itemRepository.saveAll(itemList);
+
+    }
+
+
     public void removeItemCategoryFromMenu(Item itemCategory) {
 
         List<Item> listOfItemCategoryToSetOutOfStock;
@@ -107,6 +134,7 @@ public class ItemService {
             System.err.println(e);
         }
     }
+
 //    public void createItems() {
 //
 //        itemRepository.save(new DrinkableAlcoholicItem("Mythos", 79, "beer",true, 50L, 5));
