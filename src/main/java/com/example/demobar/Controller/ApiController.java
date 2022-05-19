@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,9 +46,73 @@ public class ApiController {
 
     }
 
+    @GetMapping("/ShowFoodOnMenu") //shows the food available on menu
+    public List<Item> showFoodOnMenu() {
+        FoodItem foodItem= new FoodItem();
+        return itemService.allCategoryItemsInstock(foodItem);
+    }
+
+    @GetMapping("/ShowFoodNotOnMenu") //shows the food NOT available on menu
+    public List<Item> showFoodNotOnMenu() {
+        FoodItem foodItem= new FoodItem();
+        return itemService.allCategoryItemsNotInstock(foodItem);
+    }
+
+    @GetMapping("/ShowSnacksOnMenu") //shows the food available on menu
+    public List<Item> showSnacksOnMenu() {
+        SnacksItem snacksItem= new SnacksItem();
+        return itemService.allCategoryItemsInstock(snacksItem);
+    }
+
+    @GetMapping("/ShowSnacksNotOnMenu") //shows the food NOT available on menu
+    public List<Item> showSnacksNotOnMenu() {
+        SnacksItem snacksItem= new SnacksItem();
+        return itemService.allCategoryItemsNotInstock(snacksItem);
+    }
+
+    @GetMapping("/ShowDrinkableItemsOnMenu") //shows the food available on menu
+    public List<Item> ShowDrinkableItemsOnMenu() {
+        DrinkableItem drinkableItem= new DrinkableItem();
+        return itemService.allCategoryItemsInstock(drinkableItem);
+    }
+
+    @GetMapping("/ShowDrinkableItemsNotOnMenu") //shows the food NOT available on menu
+    public List<Item> ShowDrinkableItemsNotOnMenu() {
+        DrinkableItem drinkableItem= new DrinkableItem();
+        return itemService.allCategoryItemsNotInstock(drinkableItem);
+    }
+
+    @GetMapping("/ShowDrinkableAlcoholicItemsOnMenu") //shows the food available on menu
+    public List<Item> ShowDrinkableAlcoholicItemsOnMenu() {
+        DrinkableAlcoholicItem drinkableAlcoholicItem= new DrinkableAlcoholicItem();
+        return itemService.allCategoryItemsInstock(drinkableAlcoholicItem);
+    }
+
+    @GetMapping("/ShowDrinkableAlcoholicItemsNotOnMenu") //shows the food NOT available on menu
+    public List<Item> ShowDrinkableAlcoholicItemsNotOnMenu() {
+        DrinkableAlcoholicItem drinkableAlcoholicItem= new DrinkableAlcoholicItem();
+        return itemService.allCategoryItemsNotInstock(drinkableAlcoholicItem);
+    }
+
     @GetMapping("/ShowNotOnMenu") //items that are out of stock
     public List<Item> showNotOnMenu() {
         return itemService.outOfStock();
+
+    }
+
+    @GetMapping("/getTodaysReceipts")
+    public List<Receipt> getTodaysReceipts() {
+        List<Receipt> todaysReceipts= new ArrayList<>();
+        todaysReceipts=receiptService.getTodaysReceipts();
+        return todaysReceipts;
+
+    }
+
+    @GetMapping("/getYesterdayReceipts")
+    public List<Receipt> getYesterdaysReceipts() {
+        List<Receipt> yesterdaysReceipts= new ArrayList<>();
+        yesterdaysReceipts=receiptService.getYesterdaysReceipts();
+        return yesterdaysReceipts;
 
     }
 
@@ -98,13 +163,14 @@ public class ApiController {
     }
 
     @PostMapping("/addItemFoodOrSnacks/{itemCategory}/{nameOfItem}/{price}") //Add food or snack item
-    public void addFoodOrSnackToMeny(@PathVariable String itemCategory, @PathVariable String nameOfItem, @PathVariable int price) {
+    public ResponseEntity<String> addFoodOrSnackToMeny(@PathVariable String itemCategory, @PathVariable String nameOfItem, @PathVariable int price) {
         itemService.createNewFoodOrSnacksItem(nameOfItem,price, itemCategory);
+        return new ResponseEntity<>("200", HttpStatus.OK);
     }
 
-    @PostMapping("/addItemDrink/{nameOfItem}/{price}/{type}/{volume}") // add Drink item
-    public void addDrinkItemToMenu( @PathVariable String nameOfItem, @PathVariable int price,@PathVariable String type,  @PathVariable Long volume) {
-        itemService.createNewDrinkableNonAlcItem(nameOfItem,price, type, volume);
+    @PostMapping("/addItemDrink/{nameOfItem}/{price}/{volume}") // add Drink item
+    public void addDrinkItemToMenu( @PathVariable String nameOfItem, @PathVariable int price,  @PathVariable Long volume) {
+        itemService.createNewDrinkableNonAlcItem(nameOfItem,price,volume);
     }
 
     @PostMapping("/addItemDrinkAlcoholic/{nameOfItem}/{price}/{type}/{volume}/{percentage}") //add alcoholic drink item
@@ -116,9 +182,39 @@ public class ApiController {
        //TODO: delete the one with that id
     }
 
-    @PostMapping("/SetOutOfStockSingleItem/{id}")
-    public void takeItemOffMenu(@PathVariable String id) {
-        //TODO: set in stock of said item to false
+    @PutMapping("/SetOutOfStockSingleItem/{id}")
+    public ResponseEntity<String> takeItemOffMenu(@PathVariable String id) {
+        itemService.setOutOrInStock(id, false);
+        return new ResponseEntity<>("200", HttpStatus.OK);
+    }
+    @PutMapping("/SetInStockSingleItem/{id}")
+    public ResponseEntity<String> putItemBackOnMenu(@PathVariable String id) {
+        itemService.setOutOrInStock(id, true);
+        return new ResponseEntity<>("200", HttpStatus.OK);
+    }
+
+    @PutMapping("/ChangeTheNameOfItem/{id}/{newName}")
+    public ResponseEntity<String> changeNameOfItem(@PathVariable String id,@PathVariable String newName) {
+        itemService.changeNameOfItem(id, newName);
+        return new ResponseEntity<>("200", HttpStatus.OK);
+    }
+
+    @PutMapping("/ChangeThePriceOfItem/{id}/{price}")
+    public ResponseEntity<String> changePriceOfItem(@PathVariable String id,@PathVariable int price) {
+        itemService.changePriceOfItem(id, price);
+        return new ResponseEntity<>("200", HttpStatus.OK);
+    }
+
+    @PutMapping("/ChangeTheVolumeOfItem/{id}/{volume}")
+    public ResponseEntity<String> changeVolumeOfItem(@PathVariable String id,@PathVariable int volume) {
+        itemService.changeVolumeOfItem(id, volume);
+        return new ResponseEntity<>("200", HttpStatus.OK);
+    }
+
+    @PutMapping("/ChangeThePercentageOfItem/{id}/{percentage}")
+    public ResponseEntity<String> changePercentageOfItem(@PathVariable String id,@PathVariable int percentage) {
+        itemService.changePercentageOfItem(id, percentage);
+        return new ResponseEntity<>("200", HttpStatus.OK);
     }
 
     @PostMapping("/printReceipt")
@@ -134,8 +230,12 @@ public class ApiController {
 
         }
         receipt.setItemsPurchased(listOfItems);
-        receiptService.saveReceiptToDB(receipt);
+
+        //receipt.setLocalDateTime(LocalDateTime.of(ye).now());
+
         receiptService.calculateTotalReceipt(receipt);
+
+        receiptService.saveReceiptToDB(receipt);
 
         return new ResponseEntity<>("200", HttpStatus.OK);
     }

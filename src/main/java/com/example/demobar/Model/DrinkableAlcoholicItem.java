@@ -12,10 +12,12 @@ import javax.persistence.Entity;
 public class DrinkableAlcoholicItem extends DrinkableItem{
 
     private double percentageAlcohol;
+    private String type;
 
     public DrinkableAlcoholicItem(String nameOfItem, int price, String type, Boolean alcoholic, Long volume, double percentageAlcohol) {
-        super(nameOfItem, price, type, alcoholic, volume);
+        super(nameOfItem, price, alcoholic, volume);
         this.percentageAlcohol = percentageAlcohol;
+        this.type = type;
     }
 
     @Override
