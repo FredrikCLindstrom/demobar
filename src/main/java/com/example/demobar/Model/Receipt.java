@@ -5,8 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 import javax.persistence.*;
+import java.text.DateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 
 @Getter
@@ -25,7 +29,15 @@ public class Receipt {
 
     private int totalPrice;
 
+    private String date;
+
+    private String time;
+
+    private int tableNr;
+
     public Receipt() {
+
         this.idOfReceipt = UUID.randomUUID().toString();
+        this.tableNr=1;
     }
 }

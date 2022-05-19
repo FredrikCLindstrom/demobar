@@ -32,6 +32,37 @@ public class ItemService {
 
     }
 
+    public List<Item> getAllItemsInCategoryAsList(Item itemType) {
+        List<Item> allItemsInACategory=new ArrayList<>();
+        allItemsInACategory=itemRepository.findAll().stream().filter(item -> item.getClass().equals(itemType.getClass())).collect(Collectors.toList());
+        return allItemsInACategory;
+    }
+
+    public List<Item> getStockedStatusItemsInCategory(List<Item> itemList, Boolean instock) {
+        System.out.println(instock);
+        List<Item> newItemList=itemList.stream().filter(item->item.getInStock().equals(instock.booleanValue())).collect(Collectors.toList());
+        return newItemList;
+    }
+
+    public List<Item> allCategoryItemsInstock(Item itemType) {
+        List<Item> allItemsInACategory= getAllItemsInCategoryAsList(itemType);
+        System.out.println(allItemsInACategory);
+        List<Item> allItemsInACategoryInstock= getStockedStatusItemsInCategory(allItemsInACategory, true);
+
+        return allItemsInACategoryInstock;
+
+    }
+
+    public List<Item> allCategoryItemsNotInstock(Item itemType) {
+
+        List<Item> allItemsInACategory= getAllItemsInCategoryAsList(itemType);
+        System.out.println(allItemsInACategory);
+        List<Item> allItemsNotInACategoryInstock= getStockedStatusItemsInCategory(allItemsInACategory, false);
+
+        return allItemsNotInACategoryInstock;
+
+    }
+
     public List<Item> outOfStock() {
         List<Item> outOfStock;
         outOfStock=itemRepository.findAll().stream().filter(item -> item.getInStock().equals(false)).collect(Collectors.toList());
@@ -97,6 +128,14 @@ public class ItemService {
         return found;
     }
 
+    public Item setOutOrInStock(String itemId, boolean instock){
+        Item found;
+        found=itemRepository.findItemById(itemId);
+        found.setInStock(instock);
+        itemRepository.save(found);
+        return found;
+    }
+
     public void createNewFoodOrSnacksItem(String nameOfItem, int price, String itemCategory){
 
         try {
@@ -116,10 +155,10 @@ public class ItemService {
         }
     }
 
-    public void createNewDrinkableNonAlcItem(String nameOfItem, int price, String type, Long volume){
+    public void createNewDrinkableNonAlcItem(String nameOfItem, int price, Long volume){
 
         try {
-            itemRepository.save(new DrinkableItem(nameOfItem,price,type,false,volume));
+            itemRepository.save(new DrinkableItem(nameOfItem,price,false,volume));
         }catch (Exception e){
             System.err.println(e);
         }
@@ -133,6 +172,43 @@ public class ItemService {
         }catch (Exception e){
             System.err.println(e);
         }
+    }
+
+    public void changeNameOfItem(String id, String newName) {
+        System.out.println("id: "+ id+" newName: "+newName);
+        Item foundItem=itemRepository.findItemById(id);
+        foundItem.setNameOfItem(newName);
+        itemRepository.save(foundItem);
+    }
+
+    public void changePriceOfItem(String id, int price) {
+        System.out.println("id: "+ id+" price: "+price);
+        Item foundItem=itemRepository.findItemById(id);
+        foundItem.setPrice(price);
+        itemRepository.save(foundItem);
+
+    }
+
+    public void changeVolumeOfItem(String id, int volume) {
+        System.out.println("id: "+ id+" volume: "+volume);
+        Item foundItem=itemRepository.findItemById(id);
+        DrinkableItem drinkableItem= (DrinkableItem) foundItem;
+        drinkableItem.setVolume((long) volume);
+        itemRepository.save(drinkableItem);
+
+    }
+
+    public void changePercentageOfItem(String id, int percentage) {
+        System.out.println("<<<><<>>>>>>><<<<><<><>><<<<");
+        System.out.println("id: "+ id+" percentage: "+percentage);
+
+        Item foundItem=itemRepository.findItemById(id);
+        System.out.println("foundItem: "+foundItem);
+        DrinkableAlcoholicItem drinkableAlcoholicItem= (DrinkableAlcoholicItem) foundItem;
+        System.out.println("drinkableAlcoholicItem: "+drinkableAlcoholicItem);
+        drinkableAlcoholicItem.setPercentageAlcohol((long) percentage);
+        itemRepository.save(drinkableAlcoholicItem);
+
     }
 
 //    public void createItems() {

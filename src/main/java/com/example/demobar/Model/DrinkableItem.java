@@ -12,13 +12,12 @@ import javax.persistence.Entity;
 @Entity
 public class DrinkableItem extends Item{
 
-    private String type;
+
     private Boolean alcoholic;
     private Long volume;
 
-    public DrinkableItem(String nameOfItem, int price, String type,Boolean alcoholic, Long volume) {
+    public DrinkableItem(String nameOfItem, int price,Boolean alcoholic, Long volume) {
         super(nameOfItem, price);
-        this.type = type;
         this.alcoholic = alcoholic;
         this.volume = volume;
     }
@@ -28,7 +27,6 @@ public class DrinkableItem extends Item{
         return "DrinkableItem{" +
                 ", Name="+ getNameOfItem()+
                 ", price="+getPrice()+
-                ", type='" + type + '\'' +
                 ", alcoholic=" + alcoholic +
                 ", volume=" + volume +
                 ", inStock=" + getInStock() +
