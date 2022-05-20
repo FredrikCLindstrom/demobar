@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -170,6 +169,7 @@ public class ApiController {
 
     @PostMapping("/addItemDrink/{nameOfItem}/{price}/{volume}") // add Drink item
     public void addDrinkItemToMenu( @PathVariable String nameOfItem, @PathVariable int price,  @PathVariable Long volume) {
+        System.out.println("<<<< name of item: "+nameOfItem+" price: "+price+" volume: "+volume);
         itemService.createNewDrinkableNonAlcItem(nameOfItem,price,volume);
     }
 
@@ -177,9 +177,13 @@ public class ApiController {
     public void addAlcoholicDrinkItemToMenu( @PathVariable String nameOfItem,@PathVariable String type, @PathVariable int price, @PathVariable Long volume, @PathVariable double percentage) {
         itemService.createNewDrinkableAlcoholicItem(nameOfItem,price, type, volume, percentage);
     }
-    @PostMapping("/DeleteItem/{id}")
-    public void deleteForeverItem(@PathVariable String id) {
-       //TODO: delete the one with that id
+
+    @PutMapping("/DeleteItem/{id}")
+    public ResponseEntity<String> deleteForeverItem(@PathVariable String id) {
+        System.out.println("item to be deleted "+id);
+        itemService.deleteFromDatabase(id);
+        return new ResponseEntity<>("200", HttpStatus.OK);
+       //TODO: change to deletemapping later
     }
 
     @PutMapping("/SetOutOfStockSingleItem/{id}")
@@ -196,6 +200,12 @@ public class ApiController {
     @PutMapping("/ChangeTheNameOfItem/{id}/{newName}")
     public ResponseEntity<String> changeNameOfItem(@PathVariable String id,@PathVariable String newName) {
         itemService.changeNameOfItem(id, newName);
+        return new ResponseEntity<>("200", HttpStatus.OK);
+    }
+
+    @PutMapping("/ChangeTheItemType/{id}/{type}")
+    public ResponseEntity<String> changeItemType(@PathVariable String id,@PathVariable String type) {
+        itemService.changeTheItemType(id, type);
         return new ResponseEntity<>("200", HttpStatus.OK);
     }
 
