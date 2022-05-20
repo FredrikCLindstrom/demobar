@@ -181,6 +181,14 @@ public class ItemService {
         itemRepository.save(foundItem);
     }
 
+    public void changeTheItemType(String id, String type) {
+        System.out.println("id: "+ id+" type: "+type);
+        Item foundItem=itemRepository.findItemById(id);
+        DrinkableAlcoholicItem drinkableAlcoholicItem= (DrinkableAlcoholicItem) foundItem;
+        drinkableAlcoholicItem.setType(type);
+        itemRepository.save(drinkableAlcoholicItem);
+    }
+
     public void changePriceOfItem(String id, int price) {
         System.out.println("id: "+ id+" price: "+price);
         Item foundItem=itemRepository.findItemById(id);
@@ -209,6 +217,11 @@ public class ItemService {
         drinkableAlcoholicItem.setPercentageAlcohol((long) percentage);
         itemRepository.save(drinkableAlcoholicItem);
 
+    }
+
+    public void deleteFromDatabase(String id){
+        Item itemFound= itemRepository.findItemById(id);
+        itemRepository.delete(itemFound);
     }
 
 //    public void createItems() {
