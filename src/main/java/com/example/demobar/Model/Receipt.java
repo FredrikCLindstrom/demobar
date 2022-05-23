@@ -7,11 +7,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.persistence.*;
 import java.text.DateFormat;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-
-import java.util.Date;
-import java.util.Locale;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -40,4 +37,5 @@ public class Receipt {
         this.idOfReceipt = UUID.randomUUID().toString();
         this.tableNr=1;
     }
+
 }

@@ -25,6 +25,23 @@ public class ItemService {
         return allItemsList;
     }
 
+    public void createItems() {//This adds random items to database
+
+        itemRepository.save(new DrinkableAlcoholicItem("Mythos", 79, "beer",true, 50L, 5));
+        itemRepository.save(new FoodItem("Biffteki", 189));
+        itemRepository.save(new DrinkableAlcoholicItem("pripps", 49, "beer",true, 50L, 5));
+        itemRepository.save(new FoodItem("pizza Veg", 99));
+        itemRepository.save(new SnacksItem("chips n dip", 30));
+
+        itemRepository.save(new DrinkableAlcoholicItem("Heineken", 79, "beer",true, 50L, 5));
+        itemRepository.save(new FoodItem("Souvlaki", 199));
+        itemRepository.save(new DrinkableAlcoholicItem("Norrlandsguld", 59, "beer",true, 50L, 5));
+        itemRepository.save(new FoodItem("Kebab", 99));
+        itemRepository.save(new SnacksItem("chips n dip", 30));
+        itemRepository.save(new DrinkableItem("Pepsi",59, false, 50l));
+        itemRepository.save(new DrinkableItem("Fanta",59, false, 50l));
+    }
+
     public List<Item> allAvailableMenuItems() {
         List<Item> allInstockItemsList=new ArrayList<>();
         allInstockItemsList=itemRepository.findAll().stream().filter(item -> item.getInStock().equals(true)).collect(Collectors.toList());
@@ -224,12 +241,5 @@ public class ItemService {
         itemRepository.delete(itemFound);
     }
 
-//    public void createItems() {
-//
-//        itemRepository.save(new DrinkableAlcoholicItem("Mythos", 79, "beer",true, 50L, 5));
-//        itemRepository.save(new FoodItem("Biffteki", 99));
-//        itemRepository.save(new DrinkableAlcoholicItem("pripps", 49, "beer",true, 50L, 5));
-//        itemRepository.save(new FoodItem("pizza Veg", 99));
-//        itemRepository.save(new SnacksItem("chips n dip", 30));
-//    }
+
 }
