@@ -27,11 +27,11 @@ public class ApiController {
         this.receiptService = receiptService;
     }
 
-//    @GetMapping("/addToDataBase") //adds testdata do DB, only runs once
-//    public String getTestObject() {
-//        itemService.createItems();
-//        return "added";
-//    }
+    @GetMapping("/addToDataBase") //adds testdata do DB, only runs once
+    public String getTestObject() {
+        itemService.createItems();
+        return "added";
+    }
 
     @GetMapping("/all") //show all menu items regardless of in stock or not
     public List<Item> getAllItemsInDB() {
@@ -103,6 +103,7 @@ public class ApiController {
     public List<Receipt> getTodaysReceipts() {
         List<Receipt> todaysReceipts= new ArrayList<>();
         todaysReceipts=receiptService.getTodaysReceipts();
+
         return todaysReceipts;
 
     }

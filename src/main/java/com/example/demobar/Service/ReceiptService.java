@@ -1,5 +1,6 @@
 package com.example.demobar.Service;
 
+import com.example.demobar.Model.Item;
 import com.example.demobar.Model.Receipt;
 import com.example.demobar.Repo.ReceiptRepository;
 import com.example.demobar.SortTime;
@@ -89,7 +90,7 @@ public class ReceiptService {
                 receipt -> receipt.getDate().equals(getTodaysDate()))
                 .collect(Collectors.toList());
         Collections.sort(onlyTodaysReceipts, new SortTime());
-        System.out.println(onlyTodaysReceipts);
+
         return onlyTodaysReceipts;
     }
 
